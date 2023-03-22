@@ -1,0 +1,72 @@
+version: "3.8"
+
+services:
+  app:  
+    container_name: server-laravel
+    build:
+      dockerfile: Dockerfile
+      context: ./docker/php 
+    image: server-php
+    restart: unless-stopped 
+    working_dir: /var/www/source/laravel
+    volumes:
+        - ./:/var/www
+    depends_on:    
+      - redis
+    networks: 
+      - laranet
+
+  nginx:
+    container_name: server-nginx
+    image: nginx:alpine
+    restart: unless-stopped
+    volumes: 
+      - ./:/var/www
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    ports: 
+      - 8080:80
+    networks: 
+      - laranet
+
+  db:  
+    container_name: server-mariadb
+    image: mariadb:10.6
+    restart: always
+    env_file:
+      - .env
+    environment:
+      #- TZ=America/Sao_Paulo      
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - ./db_data:/var/lib/mysql
+    #command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-time-zone=-03:00']
+    ports:
+      - 3306:3306
+    networks: 
+      - laranet
+
+  queue:
+    container_name: server-queue
+    image: server-php
+    restart: unless-stopped
+    command: "php artisan queue:work"
+    volumes: 
+      - ./:/var/www/source/laravel
+    depends_on: 
+      - redis
+      - app
+    networks: 
+      - laranet
+
+  redis:
+    container_name: server-redis
+    image: redis:latest
+    networks: 
+      - laranet
+
+networks: 
+  laranet:
+    driver: bridge
