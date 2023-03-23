@@ -17,4 +17,13 @@ class CourseController extends Controller
         //Retornando dados do curso para a Resource, Classe responsavel por padronizar os retornos de API
         return CourseResource::collection($courses);
     }
+
+    public function show($id)
+    {
+        //Buscan o curso pelo ID, caso nao encontre retorna erro 404
+        $course = Course::findOrFail($id);
+
+        //Retorna resultado
+        return new CourseResource($course);
+    }
 }
