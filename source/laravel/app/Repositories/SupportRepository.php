@@ -9,7 +9,7 @@ use App\Repositories\Traits\RepositoryTrait;
 class SupportRepository
 {
     use RepositoryTrait;
-    
+
     protected $entity;
 
     public function __construct(Support $model)
@@ -18,10 +18,15 @@ class SupportRepository
         $this->entity = $model;
     }
 
+    public function getMySupports(array $filters = [])
+    {
+        $filters['user'] = true;
+        return $this->getSupports($filters);
+    }
+
     public function getSupports(array $filters = [])
     {
-        return $this->getUserAuth()
-                    ->supports()
+        return $this->entity
                     ->where(function ($query) use ($filters) {
                         //Verifica se a requisicao trouxe parametro ID da aula
                         if (isset($filters['lesson'])) {
@@ -37,6 +42,12 @@ class SupportRepository
                         if (isset($filters['filter'])) {
                             $filter = $filters['filter'];
                             $query->where('descricao', 'LIKE', "%{$filter}%");
+                        }
+
+                        //Verifica se a requisicao trouxe parametro USER
+                        if (isset($filters['user'])) {
+                            $user = $this->getUserAuth();
+                            $query->where('user_id', $user->id);
                         }
                     })
                     ->orderBy('updated_at')
