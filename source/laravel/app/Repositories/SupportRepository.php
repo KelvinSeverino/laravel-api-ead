@@ -53,6 +53,22 @@ class SupportRepository
         return $support;
     }
 
+    public function createReplyToSupportId(string $supportId, array $data)
+    {
+        $user = $this->getUserAuth();
+        return $this->getSupport($supportId)
+                ->replies()
+                ->create([
+                    'descricao' => $data['description'],
+                    'user_id' => $user->id,
+                ]);
+    }
+    
+    private function getSupport(string $id)
+    {
+        return $this->entity->findOrFail($id);
+    }
+
     private function getUserAuth(): User
     {
         //return auth()->user();
