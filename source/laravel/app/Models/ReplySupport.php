@@ -13,7 +13,8 @@ class ReplySupport extends Model
     public $incrementing = false;
     protected $keyType = 'uuid';
     protected $fillable = ['status', 'descricao', 'support_id', 'user_id'];
-    protected $table = 'reply_support'; //Definindo nome da tabela, pois quando criado pelo Artisan colocou no plural        
+    protected $table = 'reply_support'; //Definindo nome da tabela, pois quando criado pelo Artisan colocou no plural    
+    protected $touches = ['support']; //Toda vez que ouver update, sera tocado no relacionamento suporte
     
     /**
      * support - gera relacionamento entre tabelas / traz a chamado do suporte

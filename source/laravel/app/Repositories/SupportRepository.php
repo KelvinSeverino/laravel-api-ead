@@ -3,11 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Support;
-use App\Models\User;
+use App\Repositories\Traits\RepositoryTrait;
 
 //Classe Repository sao responsaveis por armazenas as consultas da model, ou seja, as query, desde as simples ate complexas
 class SupportRepository
 {
+    use RepositoryTrait;
+    
     protected $entity;
 
     public function __construct(Support $model)
@@ -37,6 +39,7 @@ class SupportRepository
                             $query->where('descricao', 'LIKE', "%{$filter}%");
                         }
                     })
+                    ->orderBy('updated_at')
                     ->get();
     }
 
@@ -67,11 +70,5 @@ class SupportRepository
     private function getSupport(string $id)
     {
         return $this->entity->findOrFail($id);
-    }
-
-    private function getUserAuth(): User
-    {
-        //return auth()->user();
-        return User::first();
     }
 }

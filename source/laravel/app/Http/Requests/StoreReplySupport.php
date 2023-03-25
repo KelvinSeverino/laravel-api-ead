@@ -24,6 +24,7 @@ class StoreReplySupport extends FormRequest
     public function rules()
     {
         return [
+            'support' => ['required', 'exists:supports,id'], //Verifica se o ID enviado existe na tabela
             'description' => ['required', 'min:3', 'max:10000']
         ];
     }
