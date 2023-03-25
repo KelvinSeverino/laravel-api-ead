@@ -28,7 +28,7 @@ class SupportRepository
 
                         //Verifica se a requisicao trouxe parametro ID do status
                         if (isset($filters['status'])) {
-                            $query->where('status_id', $filters['status']);
+                            $query->where('status', $filters['status']);
                         }
                         
                         //Verifica se a requisicao trouxe parametro filter, a descricao
@@ -40,7 +40,7 @@ class SupportRepository
                     ->get();
     }
 
-    private function getUserAuth()
+    private function getUserAuth(): User
     {
         //return auth()->user();
         return User::first();
