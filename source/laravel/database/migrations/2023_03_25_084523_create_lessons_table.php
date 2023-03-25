@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('lessons', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            //$table->foreignId('course_id')->constrained('courses'); //Criando chave estrangeira com tabela de cursos
-            $table->uuid('course_id')->nullable(false); //Relacionamento fica logico desta maneira, ou seja, sera feito pelo dev nas consultas
-            $table->string('nome');
+            $table->uuid('module_id')->nullable(false); //Relacionamento fica logico desta maneira, ou seja, sera feito pelo dev nas consultas
+            $table->text('nome')->unique();
+            $table->text('url')->unique();
+            $table->text('video')->unique();
+            $table->text('descricao')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('lessons');
     }
 };

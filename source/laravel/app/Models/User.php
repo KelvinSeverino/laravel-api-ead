@@ -45,4 +45,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    /**
+     * supports - gera relacionamento entre tabelas / traz os suportes do usuario
+     *
+     * @return void
+     */
+    public function supports()
+    {
+        return $this->hasMany(Support::class);
+    }
 }
