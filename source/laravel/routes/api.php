@@ -9,12 +9,15 @@ use App\Http\Controllers\Api\{
     ReplySupportController,
     SupportController
 };
+use App\Http\Controllers\Api\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------|
 */
+
+Route::post('/auth', [AuthController::class, 'auth']);
 
 Route::get('/courses', [CourseController::class, 'index']);
 Route::get('/courses/{id}', [CourseController::class, 'show']);
