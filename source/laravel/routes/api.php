@@ -9,7 +9,10 @@ use App\Http\Controllers\Api\{
     ReplySupportController,
     SupportController
 };
-use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Auth\{
+    AuthController,
+    ResetPasswordController
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -17,9 +20,18 @@ use App\Http\Controllers\Api\Auth\AuthController;
 |--------------------------------------------------------------------------|
 */
 
+/* 
+ * Auth 
+ */
 Route::post('/auth', [AuthController::class, 'auth']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+
+/* 
+ * Reset Password 
+ */
+Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest'); //middleware para informar que e uma rota de convidado
+
 
 //Middeware para filtrar as rotas, so sera acessadas, apois validar login
 Route::middleware(['auth:sanctum'])->group(function (){
