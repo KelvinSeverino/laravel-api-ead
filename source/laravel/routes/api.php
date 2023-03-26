@@ -31,6 +31,7 @@ Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
  * Reset Password 
  */
 Route::post('/forgot-password', [ResetPasswordController::class, 'sendResetLink'])->middleware('guest'); //middleware para informar que e uma rota de convidado
+Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword'])->middleware('guest'); //middleware para informar que e uma rota de convidado
 
 
 //Middeware para filtrar as rotas, so sera acessadas, apois validar login
