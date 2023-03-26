@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 
 Route::post('/auth', [AuthController::class, 'auth']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 //Middeware para filtrar as rotas, so sera acessadas, apois validar login
 Route::middleware(['auth:sanctum'])->group(function (){
