@@ -65,4 +65,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Support::class);
     }
+    
+    /**
+     * views - gera relacionamento entre tabelas / traz as views das aulas do usuario
+     */
+    public function views()
+    {
+        return $this->hasMany(LessonView::class);
+    }
 }

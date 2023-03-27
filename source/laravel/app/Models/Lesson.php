@@ -23,4 +23,17 @@ class Lesson extends Model
     {
         return $this->hasMany(Support::class);
     }
+    
+    /**
+     * views - gera relacionamento entre tabelas / traz as views das aulas do usuario
+     */
+    public function views()
+    {
+        return $this->hasMany(LessonView::class)
+                    ->where(function ($query) {
+                        if(auth()->check()) { //Verifica se o usuario esta autenticado
+                            return $query->where('user_id', auth()->user()->id);
+                        }
+                    });
+    }
 }
