@@ -3,12 +3,15 @@
 namespace Tests\Feature\Api\Auth;
 
 use App\Models\User;
+use Tests\Feature\Api\UtilsTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
+    use UtilsTrait;
+
     /**
      * Testando rota /auth com valor NULO.
      * @return void
@@ -58,12 +61,11 @@ class AuthTest extends TestCase
      */
     public function test_logout()
     {
-        $user = User::factory()->create();
-        $userToken = $user->createToken('deviceTest')->plainTextToken;
+        $token = $this->createTokenUser();
 
         //Envia dados em JSON, simulando requisicao API
         $response = $this->postJson('/logout', [], [
-            'Authorization' => "Bearer {$userToken}",
+            'Authorization' => "Bearer {$token}",
         ]); 
 
         $response->assertStatus(200); //Informa o STATUS HTTP CODE esperado da API
@@ -87,12 +89,11 @@ class AuthTest extends TestCase
      */
     public function test_get_me()
     {
-        $user = User::factory()->create();
-        $userToken = $user->createToken('deviceTest')->plainTextToken;
+        $token = $this->createTokenUser();
 
         //Pega dados em JSON, simulando requisicao API
         $response = $this->getJson('/me', [
-            'Authorization' => "Bearer {$userToken}",
+            'Authorization' => "Bearer {$token}",
         ]); 
 
         $response->assertStatus(200); //Informa o STATUS HTTP CODE esperado da API
