@@ -11,4 +11,12 @@ trait UtilsTrait
         $user = User::factory()->create();
         return $user->createToken('deviceTest')->plainTextToken;
     }
+
+    public function defaultHeaders()
+    {
+        $token = $this->createTokenUser();
+        return [            
+            'Authorization' => "Bearer {$token}",
+        ];
+    }
 }
