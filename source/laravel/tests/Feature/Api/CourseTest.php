@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use Tests\Feature\Api\UtilsTrait;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
