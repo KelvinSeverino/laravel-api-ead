@@ -21,6 +21,7 @@ class LessonRepository
     public function getLessonsByModuleId(string $moduleId)
     {
         return $this->entity
+                    ->with('supports.replies') //with() adiciona na mesma consulta, assim ja traz os suportes e respostas da aula, com base no relacionamento feito na Model
                     ->where('module_id', $moduleId)
                     ->get();
     }
@@ -33,7 +34,7 @@ class LessonRepository
     public function markLessonViewed(string $lessonId)
     {
         $user = $this->getUserAuth();
-        
+
         //Busca na tabela se o user ja tem view marcada para a aula
         $view = $user->views()->where('lesson_id', $lessonId)->first();
 
@@ -42,7 +43,7 @@ class LessonRepository
                 'qty' => $view->qty + 1 //Marca mais uma view na aula
             ]);
         }
-        
+
         //
         return $user->views()->create([
             'lesson_id' => $lessonId

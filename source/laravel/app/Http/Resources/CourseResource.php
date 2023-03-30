@@ -19,6 +19,8 @@ class CourseResource extends JsonResource
             'id' => $this->id,
             'name' => $this->nome,
             'description' => $this->descricao,
+            //'modules' => ModuleResource::collection($this->modules), //Retornando os modulos vinculados ao curso
+            'modules' => ModuleResource::collection($this->whenLoaded('modules')), //Retornando os modulos vinculados ao curso caso carregue o With() da Repository
             'image' => $this->imagem ? Storage::url($this->imagem) : '',
         ];
     }

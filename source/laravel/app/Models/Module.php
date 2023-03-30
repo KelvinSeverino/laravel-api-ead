@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Module extends Model
 {
     use HasFactory, UuidTrait;
-    
+
     public $incrementing = false;
     protected $keyType = 'uuid';
     protected $fillable = ['nome'];
@@ -20,5 +20,13 @@ class Module extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    /**
+     * lessons - retorna as aulas do modulo
+     */
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
     }
 }

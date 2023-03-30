@@ -18,6 +18,7 @@ class ModuleRepository
     public function getMOdulesByCourseId(string $courseId)
     {
         return $this->entity
+                    ->with('lessons.views') //with() adiciona na mesma consulta, assim ja traz os modulos e aulas do curso, com base no relacionamento feito na Model
                     ->where('course_id',$courseId)
                     ->get();
     }

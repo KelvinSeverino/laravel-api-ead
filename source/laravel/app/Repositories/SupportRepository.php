@@ -27,6 +27,7 @@ class SupportRepository
     public function getSupports(array $filters = [])
     {
         return $this->entity
+                    ->with('replies') //with() adiciona na mesma consulta, assim ja traz respostas do suporte
                     ->where(function ($query) use ($filters) {
                         //Verifica se a requisicao trouxe parametro ID da aula
                         if (isset($filters['lesson'])) {
@@ -37,7 +38,7 @@ class SupportRepository
                         if (isset($filters['status'])) {
                             $query->where('status', $filters['status']);
                         }
-                        
+
                         //Verifica se a requisicao trouxe parametro filter, a descricao
                         if (isset($filters['filter'])) {
                             $filter = $filters['filter'];
@@ -77,7 +78,7 @@ class SupportRepository
                     'user_id' => $user->id,
                 ]);
     }
-    
+
     private function getSupport(string $id)
     {
         return $this->entity->findOrFail($id);

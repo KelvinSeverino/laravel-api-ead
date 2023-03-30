@@ -16,7 +16,7 @@ class ReplySupportResource extends JsonResource
     {
         return [
             'description' => $this->descricao,
-            'support' => new SupportResource($this->support), //$this->support referente ao metodo de relacionamento na Model ReplySupport
+            'support' => new SupportResource($this->whenLoaded('support')), //$this->support referente ao metodo de relacionamento na Model ReplySupport
             'user' => new UserResource($this->user), //$this->user referente ao metodo de relacionamento na Model ReplySupport
         ];
     }

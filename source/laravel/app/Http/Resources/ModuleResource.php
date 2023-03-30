@@ -17,7 +17,9 @@ class ModuleResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => ucwords(strtolower($this->nome)),
+            //'lessons' => LessonResource::collection($this->lessons), //Retornando as aulas vinculadas aos modulos
+            'lessons' => LessonResource::collection($this->whenLoaded('lessons')), //Retornando as aulas vinculadas ao curso caso carregue o With() da Repository
         ];
-            
+
     }
 }
