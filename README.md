@@ -1,33 +1,24 @@
-# Setup-Docker-Laravel
+# Laravel-Api-EAD
 
 ## ❓ Para que serve?
-Este repositorio se trata de uma estrtura para criação de projetos com Docker/Laravel com base no repositório criado originalmente pela EspecializaTI.
+Este repositorio se trata de um projeto desenvolvido em laravel 9 para aprendizado realizado pelo curso de API Laravel EAD da EspecializaTI.
 
 ## 💻 Pré-requisitos
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * docker
 * docker-compose
+* composer
 
 ### 💻 Como executar
 
 Baixar repositório
 ```sh
-git clone https://github.com/KelvinSeverino/setup-docker-laravel.git
-```
-
-Acessar diretório do repositorio
-```sh
-cd setup-docker-laravel/
-```
-
-Executar comando composer criar projeto laravel (laravel/laravel ./source/NomeDoProjeto)
-```sh
-composer -vvv create-project --prefer-dist laravel/laravel ./source/laravel "9.*" --prefer-dist
+git clone https://github.com/KelvinSeverino/laravel-api-ead.git
 ```
 
 Acessar diretório do projeto
 ```sh
-cd ./source/laravel/
+cd laravel-api-ead
 ```
 
 Crie o arquivo .env
@@ -37,30 +28,39 @@ cp .env.example .env
 
 Atualize as variáveis de ambiente do arquivo .env
 ```
-APP_NAME="Setup LARAVEL"
+APP_NAME="API Laravel EAD"
+APP_ENV=local
+APP_KEY=base64:LF1zuBxkwREoRSEEqDHTIvQamxeAR1t+jBGUloEoCzM=
+APP_DEBUG=true
 APP_URL=http://localhost:8080
+APP_URL_FRONTEND=http://localhost:8080
 
+DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
-DB_DATABASE=laravel_project
+DB_DATABASE=ead
 DB_USERNAME=root
 DB_PASSWORD=root
 
+BROADCAST_DRIVER=log
 CACHE_DRIVER=redis
+FILESYSTEM_DISK=local
 QUEUE_CONNECTION=redis
 SESSION_DRIVER=redis
+SESSION_LIFETIME=120
 
 REDIS_HOST=redis
-```
+REDIS_PASSWORD=null
+REDIS_PORT=6379
 
-Voltar para a raiz da estrutura
-```sh
-cd ../../
-```
-
-Criar Link Simbolico do arquivo .env
-```sh
-ln -s ./source/laravel/.env .env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp-mail.provedor.com
+MAIL_PORT=587
+MAIL_USERNAME=kelvin@email.com
+MAIL_PASSWORD=senha1234"
+MAIL_ENCRYPTION=STARTTLS
+MAIL_FROM_ADDRESS="kelvin@email.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 Iniciar os containers
@@ -76,9 +76,10 @@ docker-compose exec app bash
 Executar comando composer para realizar download de arquivos necessários
 ```sh
 composer install
+composer update
 ```
 
-Gerar KEY do Laravel
+Gerar key do projeto Laravel
 ```sh
 php artisan key:generate
 ```
@@ -88,9 +89,4 @@ Sair do container
 exit
 ```
 
-Trocar timezone do arquivo app.php
-```sh
-sed -i "s/UTC/America\/\Sao_Paulo/g" ./source/laravel/config/app.php
-```
-
-Feito os processo acima, você poderá acessar o sistema pelo link em [http://localhost:8080](http://localhost:8080)
+Feito os processo acima, você poderá acessar a API pelo link em [http://localhost:8080](http://localhost:8080)
