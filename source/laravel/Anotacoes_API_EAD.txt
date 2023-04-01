@@ -1,0 +1,127 @@
+=================================
+<?php
+namespace App\Models\Traits;
+
+use Illuminate\Support\Str;
+
+/* Traits são pedaços de código que definem propriedades e métodos que podem ser utilizados por diferentes classes */
+trait UuidTrait
+{
+    public static function booted()
+    {
+        //Toda vez que inserir um novo dado, sera gerado o ID automaticamente
+        static::creating(function ($model) {
+            $model->{$model->getKeyName()} = (string) Str::uuid();
+        });
+    }
+    
+}
+
+Incluir a Trait acima na Model User
+class User extends Authenticatable
+{
+    use  UuidTrait;
+=================================
+O TINKER permite que você interaja com todo o seu aplicativo Laravel na linha de comando, incluindo seus modelos Eloquentes, trabalhos, eventos e muito mais. Para entrar no ambiente Tinker, execute o comando
+
+Abrir terminal do Tinker
+	php artisan tinker
+
+	Criar uma inserção na tabela Users
+		User::factory()->create();
+		
+Criar model
+	php artisan make:model Course -m
+	
+Criar tabela no BD
+	php artisan migrate
+	
+Apagar e cria tabelas do zero
+	php artisan migrate:fresh
+	
+Criando Controller
+	php artisan make:controller Api\\CourseController
+	
+Criando Resources (Para Padronizar os retornos da API)
+	php	artisan make:resouce CourseResource
+		
+Criando Factory para alimentar o BD com base na Model Course
+	php artisan make:factory CourseFactory --model=Course
+
+Alimentando a tabela courses com dados fake
+	php artisan tinker
+	Course::factory()->count(10)->create();
+
+Criando Model e Controller
+	php artisan make:model Module -mc	
+
+Criando Factory para alimentar o BD com base nas Model Module e Lesson
+	php artisan make:factory ModuleFactory --model=Module
+	php artisan make:factory LessonFactory --model=Lesson	
+
+Criando dados fakes no BD da tabela Modulos
+	Module::factory()->count(2)->create();
+	
+Criando dados fakes no BD e ja relacionando um ID de curso previamente criado
+	Module::factory()->count(10)->create(['course_id' => '417a7267-9de5-4f62-b9ed-a41e6c0847b9']);
+	
+	Lesson::factory()->count(2)->create();
+	Lesson::factory()->count(5)->create(['module_id' => '0547b563-d709-429d-8d44-2dd8fe330033']);
+	
+Voltar comando realizado no BD, no caso volta 1 passo para trás
+	php artisan migrate:rollback --step=1
+	
+Criando dados fakes no BD ja relacionando com UserID e LessonID criados anteriormente
+	Support::factory()->count(10)->create(['user_id' => '19b97fb9-7a18-47dd-be54-bec8a6ba38d9', 'lesson_id' => '45435245-c6b1-41df-8f03-6044c1f6d9a8']);
+	
+Criando Classe de request para validar as requisicoes para cadastrar Suporte
+	php artisan make:request StoreSupport
+	
+========================================
+Estrutura SEQUENCIAL 
+	ReplySupportController          ---> Recebe a requisicao e direciona
+	ReplySupportRepository          ---> Realiza a regra de negocio e chama a Model para gravar no BD
+	ReplySupport                    ---> Esta interligada com a Repository Acima
+	ReplySupportResource            ---> Pega o resultado gerado pela Repository e devolve para o Cliente que gerou a requisicao
+========================================
+Instalação SANCTUM
+	composer require laravel/sanctum
+	php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+	php artisan migrate
+	
+Criando Controller
+	php artisan make:controller Api\\Auth\\AuthController
+	
+Ajustando BD apos mexer nas Migrations
+	php artisan migrate:refresh
+	php artisan tinker
+	User::factory()->count(50)->create();
+=======================================
+Esqueci a Senha
+	Cadastrar variavel de ambiente para informar URL do Frontend no arquivo .ENV	
+	APP_URL_FRONTEND=http://localhost:8080
+	
+	Criar notificação pelo Laravel
+	php artisan make:notification ResetPasswordNotification
+	
+	Editar arquivo .ENV
+	MAIL_MAILER=smtp
+	MAIL_HOST=smtp-mail.provedor.com
+	MAIL_PORT=587
+	MAIL_USERNAME=kelvin@email.com
+	MAIL_PASSWORD=senha1234"
+	MAIL_ENCRYPTION=STARTTLS
+	MAIL_FROM_ADDRESS="kelvin@email.com"
+	MAIL_FROM_NAME="${APP_NAME}"
+=======================================
+TESTES com PHPUNIT
+Criar classe de Testes para Autenticacao
+	php artisan make:test Api\\Auth\\AuthTest
+	
+Rodar os testes
+	./vendor/bin/phpunit OU php artisan test
+========================================
+Instalação TELESCOPE - Ferramente para monitorar desempenho da API
+	composer require laravel/telescope
+	php artisan telescope:install
+	php artisan migrate
