@@ -113,11 +113,6 @@ Acessar o terminal Tinker do Laravel
 php artisan tinker
 ```
 
-Acessar o terminal Tinker do Laravel
-```sh
-php artisan tinker
-```
-
 Criar um usuario de testes
 ```sh
 User::factory()->create();
