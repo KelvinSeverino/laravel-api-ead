@@ -17,7 +17,7 @@ class CourseRepository
 
     public function getAllCourses()
     {
-        return $this->entity->with('modules.lessons')->get(); //with() adiciona na mesma consulta, assim ja traz os modulos e aulas do curso, com base no relacionamento feito na Model
+        return $this->entity->with('modules.lessons.views')->get(); //with() adiciona na mesma consulta, assim ja traz os modulos e aulas do curso, com base no relacionamento feito na Model
     }
 
     public function getCourse(string $id)

@@ -19,7 +19,7 @@ class LessonResource extends JsonResource
             'nome' => ucwords(strtolower($this->nome)),
             'description' => $this->descricao,
             'video' => $this->video,
-            'views' => $this->views, //Retornando as views vinculadas as aulas
+            'views' => ViewResource::collection($this->whenLoaded('views')), //Retornando as views vinculados as aulas caso carregue o With() da Repository
         ];
     }
 }
