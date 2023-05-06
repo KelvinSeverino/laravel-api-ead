@@ -22,9 +22,9 @@ class SupportResource extends JsonResource
             'description' => $this->descricao,
             'user' => new UserResource($this->user),
             //'lesson' => new LessonResource($this->lesson),
-            //'replies' => LessonResource::collection($this->replies),
+            //'replies' => ReplySupportResource::collection($this->replies),
             'lesson' => LessonResource::collection($this->whenLoaded('lessons')), //Retornando a aula vinculada ao suporte caso carregue o With() da Repository
-            'replies' => LessonResource::collection($this->whenLoaded('replies')), //Retornando as respostas vinculadas ao suporte caso carregue o With() da Repository
+            'replies' => ReplySupportResource::collection($this->whenLoaded('replies')), //Retornando as respostas vinculadas ao suporte caso carregue o With() da Repository
             'date_update' => Carbon::make($this->updated_at)->format('Y-m-d H:i:s'),
         ];
     }

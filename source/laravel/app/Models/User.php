@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     public $incrementing = false;
     protected $keyType = 'uuid';
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -46,7 +46,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     /** sendPasswordResetNotification - Metodo Polimorfado
      * @param  string $token
      * @return void
@@ -55,7 +55,7 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
-    
+
     /**
      * supports - gera relacionamento entre tabelas / traz os suportes do usuario
      *
@@ -65,7 +65,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Support::class);
     }
-    
+
     /**
      * views - gera relacionamento entre tabelas / traz as views das aulas do usuario
      */
