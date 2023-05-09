@@ -21,10 +21,9 @@ class SupportResource extends JsonResource
             'status_label' => $this->statusOptions[$this->status] ?? 'Not Found Status',
             'description' => $this->descricao,
             'user' => new UserResource($this->user),
-            //'lesson' => new LessonResource($this->lesson),
-            //'replies' => ReplySupportResource::collection($this->replies),
             'lesson' => LessonResource::collection($this->whenLoaded('lessons')), //Retornando a aula vinculada ao suporte caso carregue o With() da Repository
-            'replies' => ReplySupportResource::collection($this->whenLoaded('replies')), //Retornando as respostas vinculadas ao suporte caso carregue o With() da Repository
+            //'replies' => ReplySupportResource::collection($this->whenLoaded('replies')), //Retornando as respostas vinculadas ao suporte caso carregue o With() da Repository
+            'replies' => ReplySupportResource::collection($this->replies), //Retornando as respostas vinculadas ao suporte
             'date_update' => Carbon::make($this->updated_at)->format('Y-m-d H:i:s'),
         ];
     }
